@@ -19,20 +19,43 @@ class ApplicationState extends ChangeNotifier {
   }
 
   bool _loggedIn = false;
-
   bool get loggedIn => _loggedIn;
 
   bool _emailVerified = false;
-
   bool get emailVerified => _emailVerified;
 
   bool _profileSet = false;
-
   bool get profileSet => _profileSet;
 
   String _userName = "";
-
   String get userName => _userName;
+
+  String _userId = "";
+  String get userId => _userId;
+
+  bool _showQuestionsForm = false;
+  bool get showQuestionForm => _showQuestionsForm;
+
+  int _compteur = 1;
+  int get compteur => _compteur;
+
+  void incrementation() {
+    _compteur++;
+  }
+
+  void reinitialiser() {
+    _compteur = 1;
+  }
+
+  void addQuestions() {
+    _showQuestionsForm = true;
+    notifyListeners();
+  }
+
+  void Updatedone() {
+    _showQuestionsForm = false;
+    notifyListeners();
+  }
 
   Future<void> checkprofile() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -67,6 +90,7 @@ class ApplicationState extends ChangeNotifier {
       if (user != null) {
         _loggedIn = true;
         _emailVerified = user.emailVerified;
+        _userId = user.uid;
         checkprofile(); // Call checkprofile() whenever the authentication state changes
       } else {
         _loggedIn = false;

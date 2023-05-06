@@ -20,19 +20,22 @@ class AuthFunc extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 24, bottom: 8),
       child: loggedIn
-          ? ElevatedButton(
-              onPressed: signOut,
-              child: const Text('Log Out'),
+          ? ListTile(
+              leading: Icon(Icons.login),
+              title: Text('Sign Out'),
+              onTap: () {
+                signOut();
+              },
             )
           : Container(
               width: 200, // set the width to increase the size
               height: 50,
-              child: StyledButton(
+              child: ElevatedButton(
                 onPressed: () {
                   !loggedIn ? context.push('/sign-in') : signOut();
                 },
                 child: const Text(
-                  'Join the fun!',
+                  'Join the community',
                 ),
               ),
             ),

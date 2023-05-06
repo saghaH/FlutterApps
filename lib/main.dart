@@ -1,19 +1,26 @@
 // Copyright 2022 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
+import 'addquiz.dart';
 import 'app_state.dart';
+import 'firebase_options.dart';
 import 'home_page.dart';
 import 'EspaceUser.dart';
+import 'participate.dart';
+import 'quizquestions.dart';
+import 'quiz_started_p.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(ChangeNotifierProvider(
     create: (context) => ApplicationState(),
@@ -107,9 +114,32 @@ final _router = GoRouter(
           },
         ),
         GoRoute(
-          path: 'espace-user',
-          builder: (context, state) => const EspaceUser(),
-        )
+          path: 'espace-user/:firstname',
+          builder: (context, state) => EspaceUser(
+            userName: state.params['firstname']!,
+          ),
+        ),
+        GoRoute(
+          path: 'participate',
+          builder: (context, state) => const Participate(),
+        ),
+        GoRoute(
+          path: 'addquiz',
+          builder: (context, state) => const AddQuizPage(),
+        ),
+        GoRoute(
+          path: 'modifyquiz/:quizId',
+          builder: (context, state) => ModifyQuiz(
+            quizId: state.params['quizId']!,
+          ),
+        ),
+        GoRoute(
+          path: 'startquizp/:quizId/:Username',
+          builder: (context, state) => QuizStartedP(
+            quizId: state.params['quizId']!,
+            Username: state.params['Username']!,
+          ),
+        ),
       ],
     ),
   ],

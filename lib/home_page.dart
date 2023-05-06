@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 import 'app_state.dart';
 import 'src/authentication.dart';
@@ -16,17 +17,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF6A1B9A),
-              Color(0xFF8E24AA),
-              Color(0xFFBA68C8),
-            ],
-          ),
-        ),
         child: Center(
           child: Consumer<ApplicationState>(
             builder: (context, appState, _) => !appState.loggedIn
@@ -48,6 +38,10 @@ class HomePage extends StatelessWidget {
                         const SizedBox(height: 50),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment
+                              .baseline, // Ajout de cette ligne
+                          textBaseline:
+                              TextBaseline.alphabetic, // Ajout de cette ligne
                           children: [
                             Align(
                               alignment: Alignment.bottomCenter,
@@ -58,13 +52,31 @@ class HomePage extends StatelessWidget {
                                 },
                               ),
                             ),
+                            SizedBox(
+                                width:
+                                    16.0), // Ajout d'un espace de 16.0 de largeur entre les deux éléments
+                            Flexible(
+                              child: Container(
+                                width:
+                                    200, // set the width to increase the size
+                                height: 50,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    context.push('/participate');
+                                  },
+                                  child: const Text(
+                                    'Play Now',
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
-                        ),
+                        )
                       ],
                     ),
                   )
                 : appState.profileSet
-                    ? EspaceUser()
+                    ? EspaceUser(userName: appState.userName)
                     : Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
