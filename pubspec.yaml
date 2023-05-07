@@ -1,5 +1,5 @@
 name: gtk_flutter
-description: Get to know Firebase with Flutter
+description: Build a quiz app with flutter
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
